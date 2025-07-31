@@ -26,9 +26,14 @@ public class LibroServiceImpl implements LibroService {
 
     @Override
     public void update(LibroDTO libroDTO) {
+        validateId(libroDTO.getId());
         LibroValidatorExecutor.validateToUpdate(libroDTO);
-        Libro libro = LibroMapper.toEntity(libroDTO);
-        dao.update(libro);
+        Libro libroExistente = getLibroById(libroDTO.getId());
+        libroExistente.setTitulo(libroDTO.getTitulo());
+        libroExistente.setAutor(libroDTO.getAutor());
+        libroExistente.setAnioPublicacion(libroDTO.getAnioPublicacion());
+        libroExistente.setDisponible(libroDTO.isDisponible());
+        dao.update(libroExistente);
     }
 
     @Override

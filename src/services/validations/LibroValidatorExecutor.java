@@ -1,7 +1,7 @@
 package services.validations;
 
 import dtos.LibroDTO;
-import java.util.ArrayList;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -12,7 +12,7 @@ public class LibroValidatorExecutor {
 
     static {
         validatorsToSave.add(new NotNullValidator());
-        validatorsToSave.add(new IdValidator());
+        validatorsToSave.add(new IdNullValidator());
         validatorsToSave.add(new TituloValidator());
         validatorsToSave.add(new AutorValidator());
         validatorsToSave.add(new AnioPublicacionValidator());
