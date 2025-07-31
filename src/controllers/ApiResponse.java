@@ -2,10 +2,11 @@ package controllers;
 
 import dtos.LibroDTO;
 
-public class ApiResponse {
+public class ApiResponse<T> {
+
     private int statusCode;
-    private LibroDTO[] data;
-    private RuntimeException error;
+    private T data;
+    private Exception error;
 
     public int getStatusCode() {
         return statusCode;
@@ -15,19 +16,19 @@ public class ApiResponse {
         this.statusCode = statusCode;
     }
 
-    public LibroDTO[] getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(LibroDTO[] data) {
+    public void setData(T data) {
         this.data = data;
     }
 
-    public RuntimeException getError() {
+    public Exception getError() {
         return error;
     }
 
-    public void setError(RuntimeException error) {
+    public void setError(Exception error) {
         this.error = error;
     }
 }

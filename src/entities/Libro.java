@@ -2,25 +2,34 @@ package entities;
 
 public class Libro {
     
-  private long id;
+  private Long id;
   private String titulo;
   private String autor;
   private int anioPublicacion;
   private boolean disponible;
 
-  public Libro(long id, String titulo, String autor, int anioPublicacion, boolean disponible) {
+    public Libro() {}
+
+    public Libro(String titulo, String autor, int anioPublicacion, boolean disponible) {
+        this.titulo = titulo;
+        this.autor = autor;
+        this.anioPublicacion = anioPublicacion;
+        this.disponible = disponible;
+    }
+
+    public Libro(Long id, String titulo, String autor, int anioPublicacion, boolean disponible) {
       this.id = id;
       this.titulo = titulo;
       this.autor = autor;
       this.anioPublicacion = anioPublicacion;
       this.disponible = disponible;
-  }
+    }
 
-  public long getId() {
+  public Long getId() {
       return id;
   }
 
-  public void setId(long id) {
+  public void setId(Long id) {
       this.id = id;
   }
 

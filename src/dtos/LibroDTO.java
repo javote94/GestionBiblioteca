@@ -1,17 +1,19 @@
 package dtos;
 
-
 public class LibroDTO {
+
     private Long id;
     private String titulo;
     private String autor;
     private int anioPublicacion;
+    private boolean disponible;
 
-    public LibroDTO(Long id, String titulo, String autor, int anioPublicacion) {
+    public LibroDTO(Long id, String titulo, String autor, int anioPublicacion, boolean disponible) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
         this.anioPublicacion = anioPublicacion;
+        this.disponible = disponible;
     }
 
     public Long getId() {
@@ -30,4 +32,7 @@ public class LibroDTO {
         return anioPublicacion;
     }
 
+    public boolean isDisponible() {
+        return disponible;
+    }
 }
