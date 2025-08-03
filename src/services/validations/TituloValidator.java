@@ -1,8 +1,9 @@
 package services.validations;
 
 import dtos.LibroDTO;
+import entities.Libro;
 
-public class TituloValidator implements ValidatorToSave, ValidatorToUpdate {
+public class TituloValidator implements ValidatorToSave<LibroDTO>, ValidatorToUpdate<LibroDTO> {
 
     @Override
     public void validate(LibroDTO libroDTO) {
@@ -10,4 +11,6 @@ public class TituloValidator implements ValidatorToSave, ValidatorToUpdate {
             throw new IllegalArgumentException("El título del libro no puede estar vacío");
         }
     }
+
+
 }

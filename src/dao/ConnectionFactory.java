@@ -13,7 +13,7 @@ public class ConnectionFactory {
 
     static {
         try {
-            Class.forName(DRIVER); // Se carga una sola vez al iniciar
+            Class.forName(DRIVER);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("No se pudo cargar el driver JDBC", e);
         }

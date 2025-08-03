@@ -1,85 +1,102 @@
 import controllers.ApiResponse;
 import controllers.LibroController;
+import controllers.PrestamoController;
+import controllers.UsuarioController;
 import dao.DBHelper;
 import dao.IDao;
 import dao.impl.LibroDaoMySql;
+import dao.impl.UsuarioDaoMySql;
 import dtos.LibroDTO;
+import dtos.UsuarioDTO;
 import entities.Libro;
+import entities.Usuario;
 import services.LibroService;
+import services.PrestamoService;
+import services.UsuarioService;
 import services.impl.LibroServiceImpl;
+import services.impl.PrestamoServiceImpl;
+import services.impl.UsuarioServiceImpl;
+import java.sql.SQLOutput;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
 
         // Crear la tabla si no existe
-        DBHelper.createTableIfNotExists();
+        DBHelper.createTables();
 
-        // Inicializar DAO, Service y Controller
-        IDao<Libro> dao = new LibroDaoMySql();
-        LibroService service = new LibroServiceImpl(dao);
-        LibroController controller = new LibroController(service);
+        // Inicialización de DAOs
+        IDao<Libro> libroDao = new LibroDaoMySql();
+        IDao<Usuario> usuarioDao = new UsuarioDaoMySql();
+
+        // Inicialización de Servicios
+        LibroService libroService = new LibroServiceImpl(libroDao);
+        UsuarioService usuarioService = new UsuarioServiceImpl(usuarioDao);
+        PrestamoService prestamoService = new PrestamoServiceImpl(libroDao, usuarioDao);
+
+        // Inicialización de Controladores
+        LibroController libroController = new LibroController(libroService);
+        UsuarioController usuarioController = new UsuarioController(usuarioService);
+        PrestamoController prestamoController = new PrestamoController(prestamoService);
+
+        System.out.println("------------------- AGREGAR USUARIOS -------------------");
+        ApiResponse<Void> resUsuario1 = usuarioController.postUsuario(new UsuarioDTO(null, "Juan", "Pérez", "12345678", "juan@mail.com", "111-222-333"));
+        ApiResponse<Void> resUsuario2 = usuarioController.postUsuario(new UsuarioDTO(null, "Ana", "Gómez", "87654321", "ana@mail.com", "444-555-666"));
+        ApiResponse<Void> resUsuario3 = usuarioController.postUsuario(new UsuarioDTO(null, "Luis", "Martínez", "11223344", "luis@mail.com", "777-888-999"));
+        printResponse("- POST Usuario: HTTP ", resUsuario1);
+        printResponse("- POST Usuario: HTTP ", resUsuario2);
+        printResponse("- POST Usuario: HTTP ", resUsuario3);
+
 
         System.out.println("------------------- AGREGAR LIBROS -------------------");
-        LibroDTO libro1 = new LibroDTO(null, "El Principito", "Antoine de Saint-Exupéry", 1943, true);
-        LibroDTO libro2 = new LibroDTO(null, "1984", "George Orwell", 1949, true);
-        LibroDTO libro3 = new LibroDTO(null, "Cien años de soledad", "Gabriel García Márquez", 1967, true);
-        ApiResponse<Void> res1 = controller.postLibro(libro1);
-        ApiResponse<Void> res2 = controller.postLibro(libro2);
-        ApiResponse<Void> res3 = controller.postLibro(libro3);
-        printResponse("- POST [" + libro1.getTitulo() + "]: HTTP ", res1);
-        printResponse("- POST [" + libro2.getTitulo() + "]: HTTP ", res2);
-        printResponse("- POST [" + libro3.getTitulo() + "]: HTTP ", res3);
+        ApiResponse<Void> resLibro1 = libroController.postLibro(new LibroDTO(null, "El Padrino", "Mario Puzo", 1969, true));
+        ApiResponse<Void> resLibro2 = libroController.postLibro(new LibroDTO(null, "Harry Potter", "J.K. Rowling", 1997, true));
+        ApiResponse<Void> resLibro3 = libroController.postLibro(new LibroDTO(null, "El Señor de los Anillos", "J.R.R. Tolkien", 1954, true));
+        printResponse("- POST Libro: HTTP ", resLibro1);
+        printResponse("- POST Libro: HTTP ", resLibro2);
+        printResponse("- POST Libro: HTTP ", resLibro3);
 
+        System.out.println("\n------------------- LISTAR LIBROS -------------------");
+        ApiResponse<List<LibroDTO>> allLibros = libroController.getAllLibros();
+        printResponse("- GET [todos los libros]: HTTP ", allLibros);
 
-        System.out.println("\n------------------- CONSULAR LIBROS POR ID -------------------");
-        ApiResponse<LibroDTO> get1 = controller.getLibro(1L);
-        ApiResponse<LibroDTO> get2 = controller.getLibro(2L);
-        ApiResponse<LibroDTO> get99 = controller.getLibro(99L);
-        printResponse("- GET [ID 1]: HTTP ", get1);
-        printResponse("- GET [ID 2]: HTTP ", get2);
-        printResponse("- GET [ID 99]: HTTP ", get99);
+        System.out.println("\n------------------- PRESTAR LIBROS A USUARIOS -------------------");
+        ApiResponse<Void> prestamo1 = prestamoController.postPrestamo(1L, 1L); // Juan toma El Padrino
+        ApiResponse<Void> prestamo2 = prestamoController.postPrestamo(2L, 2L); // Ana toma Harry Potter
+        ApiResponse<Void> prestamo3 = prestamoController.postPrestamo(3L, 3L); // Luis toma El Señor de los Anillos
+        printResponse("- POST Prestamo: HTTP ", prestamo1);
+        printResponse("- POST Prestamo: HTTP ", prestamo2);
+        printResponse("- POST Prestamo: HTTP ", prestamo3);
 
+        System.out.println("\n------------------- DEVOLVER LIBROS -------------------");
+        ApiResponse<Void> devolucion1 = prestamoController.devolver(1L); // Juan devuelve El Padrino
+        ApiResponse<Void> devolucion2 = prestamoController.devolver(2L); // Ana devuelve Harry Potter
+        printResponse("- POST Devolución: HTTP ", devolucion1);
+        printResponse("- POST Devolución: HTTP ", devolucion2);
 
-        System.out.println("\n------------------- LISTAR TODOS LOS LIBROS -------------------");
-        ApiResponse<List<LibroDTO>> all = controller.getAllLibros();
-        printResponse("- GET [todos los libros]: HTTP ", all);
-
-
-        System.out.println("\n------------------- ACTUALIZAR LIBRO -------------------");
-        LibroDTO libroUpdate = new LibroDTO(1L, "El Principito (editado)", "Antoine de Saint-Exupéry", 1943, false);
-        ApiResponse<Void> updateResponse = controller.putLibro(libroUpdate);
-        printResponse("- PUT [ID 1]: HTTP ", updateResponse);
-
-        // System.out.println("\n------------------- ELIMINAR LIBRO -------------------");
-        // ApiResponse<Void> deleteResponse = controller.deleteLibro(2L);
-        // printResponse("- DELETE [ID 2]: HTTP ", deleteResponse);
+        System.out.println("\n------------------- LISTAR LIBROS -------------------");
+        ApiResponse<List<LibroDTO>> allLibros2 = libroController.getAllLibros();
+        printResponse("- GET [todos los libros]: HTTP ", allLibros2);
 
     }
 
     private static void printResponse(String label, ApiResponse response) {
         System.out.println(label + response.getStatusCode());
 
-        Object data = response.getData();
-        // Verificar si data es una lista o un único objeto LibroDTO
-        if (data instanceof List<?> list) {
-            list.stream()
-                    .filter(LibroDTO.class::isInstance)
-                    .map(LibroDTO.class::cast)
-                    .forEach(Main::printLibro);
-        } else if (data instanceof LibroDTO libro) {
-            printLibro(libro);
-        } else if (response.getError() != null) {
+        if (response.getError() != null) {
             System.out.println("Error: " + response.getError().getMessage());
+            return;
+        }
+
+        Object data = response.getData();
+
+        if (data instanceof List<?> list) {
+            list.forEach(System.out::println);
+        } else if (data != null) {
+            System.out.println(data);
         } else {
             System.out.println("Operación exitosa.");
         }
     }
 
-    private static void printLibro(LibroDTO libro) {
-        System.out.println("ID: " + libro.getId() +
-                           " | Título: " + libro.getTitulo() +
-                           " | Autor: " + libro.getAutor() +
-                           " | Año: " + libro.getAnioPublicacion());
-    }
 }

@@ -2,7 +2,7 @@ package services.validations;
 
 import dtos.LibroDTO;
 
-public class IdNullValidator implements ValidatorToSave {
+public class IdNullValidator implements ValidatorToSave<LibroDTO> {
 
     @Override
     public void validate(LibroDTO libroDTO) {

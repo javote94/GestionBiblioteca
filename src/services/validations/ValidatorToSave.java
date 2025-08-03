@@ -2,5 +2,5 @@ package services.validations;
 
 import dtos.LibroDTO;
 
-public interface ValidatorToSave extends Validator{
+public interface ValidatorToSave<T> extends Validator<T>{
 }

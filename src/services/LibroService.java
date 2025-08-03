@@ -1,6 +1,7 @@
 package services;
 
 import dtos.LibroDTO;
+import dtos.UsuarioDTO;
 import java.util.List;
 
 public interface LibroService {

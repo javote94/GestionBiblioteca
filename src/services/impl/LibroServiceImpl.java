@@ -5,21 +5,25 @@ import dtos.LibroDTO;
 import entities.Libro;
 import services.LibroService;
 import services.mappers.LibroMapper;
-import services.validations.LibroValidatorExecutor;
+import services.validations.factory.LibroValidatorFactory;
+import services.validations.ValidatorExecutor;
+
 import java.util.List;
 import java.util.Optional;
 
 public class LibroServiceImpl implements LibroService {
 
     private final IDao<Libro> dao;
+    private final ValidatorExecutor<LibroDTO> validatorExecutor;
 
     public LibroServiceImpl(IDao<Libro> dao) {
         this.dao = dao;
+        this.validatorExecutor = LibroValidatorFactory.create();
     }
 
     @Override
     public void save(LibroDTO libroDTO) {
-        LibroValidatorExecutor.validateToSave(libroDTO);
+        validatorExecutor.validateToSave(libroDTO);
         Libro libro = LibroMapper.toEntity(libroDTO);
         dao.save(libro);
     }
@@ -27,7 +31,7 @@ public class LibroServiceImpl implements LibroService {
     @Override
     public void update(LibroDTO libroDTO) {
         validateId(libroDTO.getId());
-        LibroValidatorExecutor.validateToUpdate(libroDTO);
+        validatorExecutor.validateToUpdate(libroDTO);
         Libro libroExistente = getLibroById(libroDTO.getId());
         libroExistente.setTitulo(libroDTO.getTitulo());
         libroExistente.setAutor(libroDTO.getAutor());

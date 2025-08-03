@@ -2,7 +2,7 @@ package services.validations;
 
 import dtos.LibroDTO;
 
-public class NotNullValidator implements ValidatorToSave, ValidatorToUpdate {
+public class NotNullValidator implements ValidatorToSave<LibroDTO>, ValidatorToUpdate<LibroDTO> {
 
     @Override
     public void validate(LibroDTO libroDTO) {

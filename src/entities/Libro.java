@@ -7,6 +7,7 @@ public class Libro {
   private String autor;
   private int anioPublicacion;
   private boolean disponible;
+  private Long usuarioId;
 
     public Libro() {}
 
@@ -18,11 +19,20 @@ public class Libro {
     }
 
     public Libro(Long id, String titulo, String autor, int anioPublicacion, boolean disponible) {
+        this.id = id;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.anioPublicacion = anioPublicacion;
+        this.disponible = disponible;
+    }
+
+    public Libro(Long id, String titulo, String autor, int anioPublicacion, boolean disponible, Long usuarioId) {
       this.id = id;
       this.titulo = titulo;
       this.autor = autor;
       this.anioPublicacion = anioPublicacion;
       this.disponible = disponible;
+      this.usuarioId = usuarioId;
     }
 
   public Long getId() {
@@ -65,15 +75,23 @@ public class Libro {
       this.disponible = disponible;
   }
 
-  @Override
-  public String toString() {
-      return "Libro{" +
-              "id=" + id +
-              ", titulo='" + titulo + '\'' +
-              ", autor='" + autor + '\'' +
-              ", anioPublicacion=" + anioPublicacion +
-              ", disponible=" + disponible +
-              '}';
-  }
+    public Long getUsuarioId() {
+        return usuarioId;
+    }
 
+    public void setUsuarioId(Long usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    @Override
+    public String toString() {
+        return "Libro{" +
+               "id=" + id +
+               ", titulo='" + titulo + '\'' +
+               ", autor='" + autor + '\'' +
+               ", anioPublicacion=" + anioPublicacion +
+               ", disponible=" + disponible +
+               ", usuarioId=" + usuarioId +
+               '}';
+    }
 }

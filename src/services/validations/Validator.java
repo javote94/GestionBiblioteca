@@ -2,6 +2,6 @@ package services.validations;
 
 import dtos.LibroDTO;
 
-public interface Validator {
-    void validate(LibroDTO libroDTO);
+public interface Validator<T> {
+    void validate(T dto);
 }

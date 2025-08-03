@@ -11,8 +11,8 @@ import java.util.Optional;
 
 public class LibroDaoMySql implements IDao<Libro> {
 
-    private static final String SQL_INSERT = "INSERT INTO libros(titulo, autor, anio_publicacion, disponible) VALUES(?,?,?,?)";
-    private static final String SQL_UPDATE = "UPDATE libros SET titulo = ?, autor = ?, anio_publicacion = ?, disponible = ? WHERE id = ?";
+    private static final String SQL_INSERT = "INSERT INTO libros(titulo, autor, anio_publicacion, disponible, usuario_id) VALUES(?,?,?,?,?)";
+    private static final String SQL_UPDATE = "UPDATE libros SET titulo = ?, autor = ?, anio_publicacion = ?, disponible = ?, usuario_id = ? WHERE id = ?";
     private static final String SQL_DELETE = "DELETE FROM libros WHERE id = ?";
     private static final String SQL_FIND_BY_ID = "SELECT * FROM libros WHERE id = ?";
     private static final String SQL_SELECT_ALL = "SELECT * FROM libros ORDER BY id";
@@ -26,6 +26,11 @@ public class LibroDaoMySql implements IDao<Libro> {
             statement.setString(2, libro.getAutor());
             statement.setInt(3, libro.getAnioPublicacion());
             statement.setBoolean(4, libro.isDisponible());
+            if (libro.getUsuarioId() != null) {
+                statement.setLong(5, libro.getUsuarioId());
+            } else {
+                statement.setNull(5, Types.BIGINT);
+            }
             statement.executeUpdate();
 
             try (ResultSet keys = statement.getGeneratedKeys()) {
@@ -47,7 +52,14 @@ public class LibroDaoMySql implements IDao<Libro> {
             statement.setString(2, libro.getAutor());
             statement.setInt(3, libro.getAnioPublicacion());
             statement.setBoolean(4, libro.isDisponible());
-            statement.setLong(5, libro.getId());
+
+            if (libro.getUsuarioId() != null) {
+                statement.setLong(5, libro.getUsuarioId());
+            } else {
+                statement.setNull(5, Types.BIGINT);
+            }
+
+            statement.setLong(6, libro.getId());
             statement.executeUpdate();
 
         } catch (Exception e) {
@@ -110,6 +122,13 @@ public class LibroDaoMySql implements IDao<Libro> {
         libro.setAutor(result.getString("autor"));
         libro.setAnioPublicacion(result.getInt("anio_publicacion"));
         libro.setDisponible(result.getBoolean("disponible"));
+
+        Long usuarioId = result.getLong("usuario_id");
+        if (result.wasNull()) {
+            libro.setUsuarioId(null);
+        } else {
+            libro.setUsuarioId(usuarioId);
+        }
         return libro;
     }
 }
