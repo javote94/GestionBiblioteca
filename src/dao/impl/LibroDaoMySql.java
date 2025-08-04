@@ -18,7 +18,7 @@ public class LibroDaoMySql implements IDao<Libro> {
     private static final String SQL_SELECT_ALL = "SELECT * FROM libros ORDER BY id";
 
     @Override
-    public void save(Libro libro) {
+    public Libro save(Libro libro) {
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement statement = conn.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -41,6 +41,7 @@ public class LibroDaoMySql implements IDao<Libro> {
         } catch (Exception e) {
             throw new RuntimeException("Error al guardar el libro en la base de datos", e);
         }
+        return libro;
     }
 
     @Override

@@ -14,11 +14,12 @@ public class LibroController {
         this.service = service;
     }
 
-    public ApiResponse<Void> postLibro(LibroDTO libroDto) {
-        ApiResponse<Void> response = new ApiResponse<>();
+    public ApiResponse<LibroDTO> postLibro(LibroDTO libroDto) {
+        ApiResponse<LibroDTO> response = new ApiResponse<>();
         try {
-            service.save(libroDto);
+            LibroDTO libroDTO = service.save(libroDto);
             response.setStatusCode(201);
+            response.setData(libroDTO);
         } catch (IllegalArgumentException e) {
             response.setStatusCode(400);
             response.setError(e);

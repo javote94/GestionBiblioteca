@@ -1,5 +1,6 @@
 package controllers;
 
+import dtos.PrestamoDTO;
 import services.PrestamoService;
 
 public class PrestamoController {
@@ -10,10 +11,10 @@ public class PrestamoController {
         this.prestamoService = prestamoService;
     }
 
-    public ApiResponse<Void> postPrestamo(Long libroId, Long usuarioId) {
+    public ApiResponse<Void> postPrestamo(PrestamoDTO prestamoDTO) {
         ApiResponse<Void> res = new ApiResponse<>();
         try {
-            prestamoService.prestarLibro(libroId, usuarioId);
+            prestamoService.prestarLibro(prestamoDTO);
             res.setStatusCode(200);
         } catch (Exception e) {
             res.setStatusCode(400);

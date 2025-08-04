@@ -22,7 +22,7 @@ public class UsuarioDaoMySql implements IDao<Usuario> {
 
 
     @Override
-    public void save(Usuario usuario) {
+    public Usuario save(Usuario usuario) {
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS)) {
 
@@ -39,6 +39,7 @@ public class UsuarioDaoMySql implements IDao<Usuario> {
         } catch (Exception e) {
             throw new RuntimeException("Error al guardar el usuario", e);
         }
+        return usuario;
     }
 
     @Override

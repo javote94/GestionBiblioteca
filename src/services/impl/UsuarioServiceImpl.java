@@ -1,14 +1,12 @@
 package services.impl;
 
 import dao.IDao;
-import dtos.LibroDTO;
 import dtos.UsuarioDTO;
-import entities.Libro;
 import entities.Usuario;
 import services.UsuarioService;
 import services.mappers.UsuarioMapper;
 import services.validations.ValidatorExecutor;
-import services.validations.factory.UsuarioValidatorFactory;
+import services.validations.usuario.factory.UsuarioValidatorFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,10 +22,10 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public void save(UsuarioDTO usuarioDTO) {
+    public UsuarioDTO save(UsuarioDTO usuarioDTO) {
         validatorExecutor.validateToSave(usuarioDTO);
-        Usuario usuario = UsuarioMapper.toEntity(usuarioDTO);
-        dao.save(usuario);
+        Usuario usuarioGuardado = dao.save(UsuarioMapper.toEntity(usuarioDTO));
+        return UsuarioMapper.toDTO(usuarioGuardado);
     }
 
     @Override

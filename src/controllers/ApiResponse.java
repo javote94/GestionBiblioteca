@@ -31,4 +31,13 @@ public class ApiResponse<T> {
     public void setError(Exception error) {
         this.error = error;
     }
+
+    @Override
+    public String toString() {
+        return "ApiResponse{" +
+               "statusCode=" + statusCode +
+               ", data=" + data +
+               ", error=" + error +
+               '}';
+    }
 }

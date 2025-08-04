@@ -13,11 +13,12 @@ public class UsuarioController {
         this.service = service;
     }
 
-    public ApiResponse<Void> postUsuario(UsuarioDTO usuarioDto) {
-        ApiResponse<Void> response = new ApiResponse<>();
+    public ApiResponse<UsuarioDTO> postUsuario(UsuarioDTO usuarioDto) {
+        ApiResponse<UsuarioDTO> response = new ApiResponse<>();
         try {
-            service.save(usuarioDto);
+            UsuarioDTO usuarioDTO = service.save(usuarioDto);
             response.setStatusCode(201);
+            response.setData(usuarioDTO);
         } catch (IllegalArgumentException e) {
             response.setStatusCode(400);
             response.setError(e);

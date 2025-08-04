@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface IDao<T> {
 
-    void save(T t);
+    T save(T t);
     void update(T t);
     void delete(Long id);
     Optional<T> findById(Long id);

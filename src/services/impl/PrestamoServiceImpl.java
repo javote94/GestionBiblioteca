@@ -1,6 +1,7 @@
 package services.impl;
 
 import dao.IDao;
+import dtos.PrestamoDTO;
 import entities.Libro;
 import entities.Usuario;
 import services.PrestamoService;
@@ -16,17 +17,15 @@ public class PrestamoServiceImpl implements PrestamoService {
     }
 
     @Override
-    public void prestarLibro(Long libroId, Long usuarioId) {
-        Libro libro = libroDao.findById(libroId)
+    public void prestarLibro(PrestamoDTO prestamoDTO) {
+        Libro libro = libroDao.findById(prestamoDTO.getLibroId())
                 .orElseThrow(() -> new IllegalArgumentException("Libro no encontrado"));
         if (!libro.isDisponible()) {
             throw new IllegalArgumentException("El libro ya está prestado");
         }
-
-        usuarioDao.findById(usuarioId)
+        usuarioDao.findById(prestamoDTO.getUsuarioId())
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
-
-        libro.setUsuarioId(usuarioId);
+        libro.setUsuarioId(prestamoDTO.getUsuarioId());
         libro.setDisponible(false);
         libroDao.update(libro);
     }

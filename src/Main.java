@@ -7,6 +7,7 @@ import dao.IDao;
 import dao.impl.LibroDaoMySql;
 import dao.impl.UsuarioDaoMySql;
 import dtos.LibroDTO;
+import dtos.PrestamoDTO;
 import dtos.UsuarioDTO;
 import entities.Libro;
 import entities.Usuario;
@@ -40,18 +41,20 @@ public class Main {
         PrestamoController prestamoController = new PrestamoController(prestamoService);
 
         System.out.println("------------------- AGREGAR USUARIOS -------------------");
-        ApiResponse<Void> resUsuario1 = usuarioController.postUsuario(new UsuarioDTO(null, "Juan", "Pérez", "12345678", "juan@mail.com", "111-222-333"));
-        ApiResponse<Void> resUsuario2 = usuarioController.postUsuario(new UsuarioDTO(null, "Ana", "Gómez", "87654321", "ana@mail.com", "444-555-666"));
-        ApiResponse<Void> resUsuario3 = usuarioController.postUsuario(new UsuarioDTO(null, "Luis", "Martínez", "11223344", "luis@mail.com", "777-888-999"));
+        ApiResponse<UsuarioDTO> resUsuario1 = usuarioController.postUsuario(new UsuarioDTO(null, "Juan", "Pérez", "12345678", "juan@mail.com", "111-222-333"));
+        ApiResponse<UsuarioDTO> resUsuario2 = usuarioController.postUsuario(new UsuarioDTO(null, "Ana", "Gómez", "87654321", "ana@mail.com", "444-555-666"));
+        ApiResponse<UsuarioDTO> resUsuario3 = usuarioController.postUsuario(new UsuarioDTO(null, "Luis", "Martínez", "11223344", "luis@mail.com", "777-888-999"));
+        ApiResponse<UsuarioDTO> resUsuarioError = usuarioController.postUsuario(new UsuarioDTO(null, "Carlos", "Sánchez", "99887766", "carlosmail.com", "000-111-222"));
         printResponse("- POST Usuario: HTTP ", resUsuario1);
         printResponse("- POST Usuario: HTTP ", resUsuario2);
         printResponse("- POST Usuario: HTTP ", resUsuario3);
+        printResponse("- POST Usuario: HTTP ", resUsuarioError);
 
 
         System.out.println("------------------- AGREGAR LIBROS -------------------");
-        ApiResponse<Void> resLibro1 = libroController.postLibro(new LibroDTO(null, "El Padrino", "Mario Puzo", 1969, true));
-        ApiResponse<Void> resLibro2 = libroController.postLibro(new LibroDTO(null, "Harry Potter", "J.K. Rowling", 1997, true));
-        ApiResponse<Void> resLibro3 = libroController.postLibro(new LibroDTO(null, "El Señor de los Anillos", "J.R.R. Tolkien", 1954, true));
+        ApiResponse<LibroDTO> resLibro1 = libroController.postLibro(new LibroDTO(null, "El Padrino", "Mario Puzo", 1969, true));
+        ApiResponse<LibroDTO> resLibro2 = libroController.postLibro(new LibroDTO(null, "Harry Potter", "J.K. Rowling", 1997, true));
+        ApiResponse<LibroDTO> resLibro3 = libroController.postLibro(new LibroDTO(null, "El Señor de los Anillos", "J.R.R. Tolkien", 1954, true));
         printResponse("- POST Libro: HTTP ", resLibro1);
         printResponse("- POST Libro: HTTP ", resLibro2);
         printResponse("- POST Libro: HTTP ", resLibro3);
@@ -60,10 +63,11 @@ public class Main {
         ApiResponse<List<LibroDTO>> allLibros = libroController.getAllLibros();
         printResponse("- GET [todos los libros]: HTTP ", allLibros);
 
+
         System.out.println("\n------------------- PRESTAR LIBROS A USUARIOS -------------------");
-        ApiResponse<Void> prestamo1 = prestamoController.postPrestamo(1L, 1L); // Juan toma El Padrino
-        ApiResponse<Void> prestamo2 = prestamoController.postPrestamo(2L, 2L); // Ana toma Harry Potter
-        ApiResponse<Void> prestamo3 = prestamoController.postPrestamo(3L, 3L); // Luis toma El Señor de los Anillos
+        ApiResponse<Void> prestamo1 = prestamoController.postPrestamo(new PrestamoDTO(1L, 1L)); // Juan toma El Padrino
+        ApiResponse<Void> prestamo2 = prestamoController.postPrestamo(new PrestamoDTO(2L, 2L)); // Ana toma Harry Potter
+        ApiResponse<Void> prestamo3 = prestamoController.postPrestamo(new PrestamoDTO(3L, 3L)); // Luis toma El Señor de los Anillos
         printResponse("- POST Prestamo: HTTP ", prestamo1);
         printResponse("- POST Prestamo: HTTP ", prestamo2);
         printResponse("- POST Prestamo: HTTP ", prestamo3);
@@ -74,9 +78,9 @@ public class Main {
         printResponse("- POST Devolución: HTTP ", devolucion1);
         printResponse("- POST Devolución: HTTP ", devolucion2);
 
-        System.out.println("\n------------------- LISTAR LIBROS -------------------");
-        ApiResponse<List<LibroDTO>> allLibros2 = libroController.getAllLibros();
-        printResponse("- GET [todos los libros]: HTTP ", allLibros2);
+        System.out.println("\n------------------- OBTENER LIBRO POR ID -------------------");
+        ApiResponse<LibroDTO> libroPorId = libroController.getLibro(3L); // Obtener El Señor de los Anillos
+        printResponse("- GET Libro por ID: HTTP ", libroPorId);
 
     }
 

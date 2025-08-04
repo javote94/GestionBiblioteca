@@ -1,7 +1,8 @@
-package services.validations;
+package services.validations.libro;
 
 import dtos.LibroDTO;
-import entities.Libro;
+import services.validations.ValidatorToSave;
+import services.validations.ValidatorToUpdate;
 
 public class TituloValidator implements ValidatorToSave<LibroDTO>, ValidatorToUpdate<LibroDTO> {
 

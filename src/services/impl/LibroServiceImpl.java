@@ -5,7 +5,7 @@ import dtos.LibroDTO;
 import entities.Libro;
 import services.LibroService;
 import services.mappers.LibroMapper;
-import services.validations.factory.LibroValidatorFactory;
+import services.validations.libro.factory.LibroValidatorFactory;
 import services.validations.ValidatorExecutor;
 
 import java.util.List;
@@ -22,10 +22,10 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
-    public void save(LibroDTO libroDTO) {
+    public LibroDTO save(LibroDTO libroDTO) {
         validatorExecutor.validateToSave(libroDTO);
-        Libro libro = LibroMapper.toEntity(libroDTO);
-        dao.save(libro);
+        Libro libroGuardado = dao.save(LibroMapper.toEntity(libroDTO));
+        return LibroMapper.toDTO(libroGuardado);
     }
 
     @Override
