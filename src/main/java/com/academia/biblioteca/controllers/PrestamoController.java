@@ -1,5 +1,6 @@
 package com.academia.biblioteca.controllers;
 
+import com.academia.biblioteca.dtos.LibroDTO;
 import com.academia.biblioteca.dtos.PrestamoDTO;
 import com.academia.biblioteca.services.PrestamoService;
 
@@ -23,10 +24,10 @@ public class PrestamoController {
         return res;
     }
 
-    public ApiResponse<Void> devolver(Long libroId) {
+    public ApiResponse<Void> devolver(LibroDTO libroDTO) {
         ApiResponse<Void> res = new ApiResponse<>();
         try {
-            prestamoService.devolverLibro(libroId);
+            prestamoService.devolverLibro(libroDTO);
             res.setStatusCode(200);
         } catch (Exception e) {
             res.setStatusCode(400);

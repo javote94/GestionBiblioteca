@@ -2,23 +2,19 @@ package com.academia.biblioteca.dtos;
 
 public class PrestamoDTO {
 
-    private Long libroId;
-    private Long usuarioId;
+    private LibroDTO libroDTO;
+    private UsuarioDTO usuarioDTO;
 
-    public PrestamoDTO() {
+    public PrestamoDTO(LibroDTO libroDTO, UsuarioDTO usuarioDTO) {
+        this.libroDTO = libroDTO;
+        this.usuarioDTO = usuarioDTO;
     }
 
-    public PrestamoDTO(Long libroId, Long usuarioId) {
-        this.libroId = libroId;
-        this.usuarioId = usuarioId;
+    public LibroDTO getLibroDTO() {
+        return libroDTO;
     }
 
-    public Long getLibroId() {
-        return libroId;
+    public UsuarioDTO getUsuarioDTO() {
+        return usuarioDTO;
     }
-
-    public Long getUsuarioId() {
-        return usuarioId;
-    }
-
 }

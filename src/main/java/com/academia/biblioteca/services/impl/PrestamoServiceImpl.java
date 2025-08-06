@@ -1,6 +1,7 @@
 package com.academia.biblioteca.services.impl;
 
 import com.academia.biblioteca.dao.IDao;
+import com.academia.biblioteca.dtos.LibroDTO;
 import com.academia.biblioteca.dtos.PrestamoDTO;
 import com.academia.biblioteca.entities.Libro;
 import com.academia.biblioteca.entities.Usuario;
@@ -18,26 +19,26 @@ public class PrestamoServiceImpl implements PrestamoService {
 
     @Override
     public void prestarLibro(PrestamoDTO prestamoDTO) {
-        Libro libro = libroDao.findById(prestamoDTO.getLibroId())
+        Libro libro = libroDao.findById(prestamoDTO.getLibroDTO().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Libro no encontrado"));
         if (!libro.isDisponible()) {
             throw new IllegalArgumentException("El libro ya está prestado");
         }
-        usuarioDao.findById(prestamoDTO.getUsuarioId())
+        Usuario usuario = usuarioDao.findById(prestamoDTO.getUsuarioDTO().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado"));
-        libro.setUsuarioId(prestamoDTO.getUsuarioId());
+        libro.setUsuario(usuario);
         libro.setDisponible(false);
         libroDao.update(libro);
     }
 
     @Override
-    public void devolverLibro(Long libroId) {
-        Libro libro = libroDao.findById(libroId)
+    public void devolverLibro(LibroDTO libroDTO) {
+        Libro libro = libroDao.findById(libroDTO.getId())
                 .orElseThrow(() -> new IllegalArgumentException("Libro no encontrado"));
         if (libro.isDisponible()) {
             throw new IllegalArgumentException("El libro no está prestado");
         }
-        libro.setUsuarioId(null);
+        libro.setUsuario(null);
         libro.setDisponible(true);
         libroDao.update(libro);
     }

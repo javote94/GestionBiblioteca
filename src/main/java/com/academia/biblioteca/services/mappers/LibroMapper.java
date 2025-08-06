@@ -11,8 +11,7 @@ public class LibroMapper {
                 dto.getTitulo(),
                 dto.getAutor(),
                 dto.getAnioPublicacion(),
-                dto.isDisponible(),
-                dto.getUsuarioId()
+                dto.isDisponible()
         );
     }
 
@@ -23,7 +22,7 @@ public class LibroMapper {
                 libro.getAutor(),
                 libro.getAnioPublicacion(),
                 libro.isDisponible(),
-                libro.getUsuarioId()
+                libro.getUsuario() != null ? UsuarioMapper.toDTO(libro.getUsuario()) : null
         );
     }
 }

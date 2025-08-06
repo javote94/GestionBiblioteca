@@ -3,6 +3,8 @@ package com.academia.biblioteca.dao.jdbc.impl;
 import com.academia.biblioteca.dao.jdbc.ConnectionFactory;
 import com.academia.biblioteca.dao.IDao;
 import com.academia.biblioteca.entities.Libro;
+import com.academia.biblioteca.entities.Usuario;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.Optional;
 
 public class LibroDaoJdbcMySql implements IDao<Libro> {
 
+    IDao<Usuario> usuarioDao = new UsuarioDaoJdbcMySql();
     private static final String SQL_INSERT = "INSERT INTO libros(titulo, autor, anio_publicacion, disponible, usuario_id) VALUES(?,?,?,?,?)";
     private static final String SQL_UPDATE = "UPDATE libros SET titulo = ?, autor = ?, anio_publicacion = ?, disponible = ?, usuario_id = ? WHERE id = ?";
     private static final String SQL_DELETE = "DELETE FROM libros WHERE id = ?";
@@ -26,8 +29,8 @@ public class LibroDaoJdbcMySql implements IDao<Libro> {
             statement.setString(2, libro.getAutor());
             statement.setInt(3, libro.getAnioPublicacion());
             statement.setBoolean(4, libro.isDisponible());
-            if (libro.getUsuarioId() != null) {
-                statement.setLong(5, libro.getUsuarioId());
+            if (libro.getUsuario() != null) {
+                statement.setLong(5, libro.getUsuario().getId());
             } else {
                 statement.setNull(5, Types.BIGINT);
             }
@@ -54,8 +57,8 @@ public class LibroDaoJdbcMySql implements IDao<Libro> {
             statement.setInt(3, libro.getAnioPublicacion());
             statement.setBoolean(4, libro.isDisponible());
 
-            if (libro.getUsuarioId() != null) {
-                statement.setLong(5, libro.getUsuarioId());
+            if (libro.getUsuario() != null) {
+                statement.setLong(5, libro.getUsuario().getId());
             } else {
                 statement.setNull(5, Types.BIGINT);
             }
@@ -126,9 +129,10 @@ public class LibroDaoJdbcMySql implements IDao<Libro> {
 
         Long usuarioId = result.getLong("usuario_id");
         if (result.wasNull()) {
-            libro.setUsuarioId(null);
+            libro.setUsuario(null);
         } else {
-            libro.setUsuarioId(usuarioId);
+            Usuario usuario = usuarioDao.findById(usuarioId).orElse(null);
+            libro.setUsuario(usuario);
         }
         return libro;
     }

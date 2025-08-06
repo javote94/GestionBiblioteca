@@ -7,7 +7,7 @@ public class LibroDTO {
     private String autor;
     private int anioPublicacion;
     private boolean disponible;
-    private Long usuarioId;
+    private UsuarioDTO usuarioDTO;
 
     public LibroDTO(Long id, String titulo, String autor, int anioPublicacion, boolean disponible) {
         this.id = id;
@@ -17,13 +17,13 @@ public class LibroDTO {
         this.disponible = disponible;
     }
 
-    public LibroDTO(Long id, String titulo, String autor, int anioPublicacion, boolean disponible, Long usuarioId) {
+    public LibroDTO(Long id, String titulo, String autor, int anioPublicacion, boolean disponible, UsuarioDTO usuarioDTO) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
         this.anioPublicacion = anioPublicacion;
         this.disponible = disponible;
-        this.usuarioId = usuarioId;
+        this.usuarioDTO = usuarioDTO;
     }
 
     public Long getId() {
@@ -46,8 +46,8 @@ public class LibroDTO {
         return disponible;
     }
 
-    public Long getUsuarioId() {
-        return usuarioId;
+    public UsuarioDTO getUsuarioDTO() {
+        return usuarioDTO;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class LibroDTO {
                " | Autor: " + autor +
                " | Año: " + anioPublicacion +
                " | Disponible: " + disponible +
-               " | Usuario: " + usuarioId;
+               " | Usuario: " + usuarioDTO;
     }
 
 }

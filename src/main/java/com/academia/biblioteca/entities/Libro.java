@@ -19,11 +19,13 @@ public class Libro {
 
     private boolean disponible;
 
-    @Column(name = "usuario_id")
-    private Long usuarioId;
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
 
-    public Libro() {}
+    public Libro() {
+    }
 
     public Libro(String titulo, String autor, int anioPublicacion, boolean disponible) {
         this.titulo = titulo;
@@ -40,61 +42,61 @@ public class Libro {
         this.disponible = disponible;
     }
 
-    public Libro(Long id, String titulo, String autor, int anioPublicacion, boolean disponible, Long usuarioId) {
-      this.id = id;
-      this.titulo = titulo;
-      this.autor = autor;
-      this.anioPublicacion = anioPublicacion;
-      this.disponible = disponible;
-      this.usuarioId = usuarioId;
+    public Libro(Long id, String titulo, String autor, int anioPublicacion, boolean disponible, Usuario usuario) {
+        this.id = id;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.anioPublicacion = anioPublicacion;
+        this.disponible = disponible;
+        this.usuario = usuario;
     }
 
     public Long getId() {
-      return id;
-  }
-
-    public void setId(Long id) {
-      this.id = id;
-  }
-
-    public String getTitulo() {
-      return titulo;
-  }
-
-    public void setTitulo(String titulo) {
-      this.titulo = titulo;
-  }
-
-    public String getAutor() {
-      return autor;
-  }
-
-    public void setAutor(String autor) {
-      this.autor = autor;
-  }
-
-    public int getAnioPublicacion() {
-      return anioPublicacion;
-  }
-
-    public void setAnioPublicacion(int anioPublicacion) {
-      this.anioPublicacion = anioPublicacion;
-  }
-
-    public boolean isDisponible() {
-      return disponible;
-  }
-
-    public void setDisponible(boolean disponible) {
-      this.disponible = disponible;
-  }
-
-    public Long getUsuarioId() {
-        return usuarioId;
+        return id;
     }
 
-    public void setUsuarioId(Long usuarioId) {
-        this.usuarioId = usuarioId;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public String getAutor() {
+        return autor;
+    }
+
+    public void setAutor(String autor) {
+        this.autor = autor;
+    }
+
+    public int getAnioPublicacion() {
+        return anioPublicacion;
+    }
+
+    public void setAnioPublicacion(int anioPublicacion) {
+        this.anioPublicacion = anioPublicacion;
+    }
+
+    public boolean isDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     @Override
@@ -105,7 +107,10 @@ public class Libro {
                ", autor='" + autor + '\'' +
                ", anioPublicacion=" + anioPublicacion +
                ", disponible=" + disponible +
-               ", usuarioId=" + usuarioId +
+               ", usuario=" + usuario +
                '}';
     }
 }
+
+
+

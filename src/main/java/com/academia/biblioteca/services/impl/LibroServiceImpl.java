@@ -5,6 +5,7 @@ import com.academia.biblioteca.dtos.LibroDTO;
 import com.academia.biblioteca.entities.Libro;
 import com.academia.biblioteca.services.LibroService;
 import com.academia.biblioteca.services.mappers.LibroMapper;
+import com.academia.biblioteca.services.mappers.UsuarioMapper;
 import com.academia.biblioteca.services.validations.libro.factory.LibroValidatorFactory;
 import com.academia.biblioteca.services.validations.ValidatorExecutor;
 
@@ -37,6 +38,7 @@ public class LibroServiceImpl implements LibroService {
         libroExistente.setAutor(libroDTO.getAutor());
         libroExistente.setAnioPublicacion(libroDTO.getAnioPublicacion());
         libroExistente.setDisponible(libroDTO.isDisponible());
+        libroExistente.setUsuario(UsuarioMapper.toEntity(libroDTO.getUsuarioDTO()));
         dao.update(libroExistente);
     }
 

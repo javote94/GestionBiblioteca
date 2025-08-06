@@ -63,16 +63,16 @@ public class Main {
 
 
         System.out.println("\n------------------- PRESTAR LIBROS A USUARIOS -------------------");
-        ApiResponse<Void> prestamo1 = prestamoController.postPrestamo(new PrestamoDTO(1L, 1L)); // Juan toma El Padrino
-        ApiResponse<Void> prestamo2 = prestamoController.postPrestamo(new PrestamoDTO(2L, 2L)); // Ana toma Harry Potter
-        ApiResponse<Void> prestamo3 = prestamoController.postPrestamo(new PrestamoDTO(3L, 3L)); // Luis toma El Señor de los Anillos
+        ApiResponse<Void> prestamo1 = prestamoController.postPrestamo(new PrestamoDTO(resLibro1.getData(), resUsuario1.getData())); // Juan toma El Padrino
+        ApiResponse<Void> prestamo2 = prestamoController.postPrestamo(new PrestamoDTO(resLibro2.getData(), resUsuario2.getData())); // Ana toma Harry Potter
+        ApiResponse<Void> prestamo3 = prestamoController.postPrestamo(new PrestamoDTO(resLibro3.getData(), resUsuario3.getData())); // Luis toma El Señor de los Anillos
         printResponse("- POST Prestamo: HTTP ", prestamo1);
         printResponse("- POST Prestamo: HTTP ", prestamo2);
         printResponse("- POST Prestamo: HTTP ", prestamo3);
 
         System.out.println("\n------------------- DEVOLVER LIBROS -------------------");
-        ApiResponse<Void> devolucion1 = prestamoController.devolver(1L); // Juan devuelve El Padrino
-        ApiResponse<Void> devolucion2 = prestamoController.devolver(2L); // Ana devuelve Harry Potter
+        ApiResponse<Void> devolucion1 = prestamoController.devolver(resLibro1.getData()); // Juan devuelve El Padrino
+        ApiResponse<Void> devolucion2 = prestamoController.devolver(resLibro2.getData()); // Ana devuelve Harry Potter
         printResponse("- POST Devolución: HTTP ", devolucion1);
         printResponse("- POST Devolución: HTTP ", devolucion2);
 
