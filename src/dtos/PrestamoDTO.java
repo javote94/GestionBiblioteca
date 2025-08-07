@@ -1,8 +1,11 @@
 package dtos;
 
+// @Schema(description = "DTO que representa un préstamo de libro a un usuario")
 public class PrestamoDTO {
 
+    // @Schema(description = "ID del libro prestado")
     private Long libroId;
+    // @Schema(description = "ID del usuario que recibe el préstamo")
     private Long usuarioId;
 
     public PrestamoDTO() {

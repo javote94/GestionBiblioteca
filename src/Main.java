@@ -20,6 +20,16 @@ import services.impl.UsuarioServiceImpl;
 import java.sql.SQLOutput;
 import java.util.List;
 
+
+
+//@OpenAPIDefinition(
+//        info = @Info(
+//                title = "API de Gestión de Biblioteca",
+//                version = "1.0",
+//                description = "API simulada para operaciones CRUD de libros, usuarios y préstamos"
+//        ),
+//        servers = @Server(url = "http://localhost:8080")
+//)
 public class Main {
     public static void main(String[] args) {
 
